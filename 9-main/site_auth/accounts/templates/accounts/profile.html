@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+    <h1>Профиль</h1>
+    <table>
+        <tr><td><b>Логин:</b></td><td>{{ user.username }}</td></tr>
+        <tr><td><b>Email:</b></td><td>{{ user.email|default:"не указан" }}</td></tr>
+        <tr><td><b>Дата регистрации:</b></td><td>{{ user.date_joined|date:"d.m.Y H:i" }}</td></tr>
+    </table>
+    <p><a href="{% url 'password_change' %}">Сменить пароль</a></p>
+
+    <h2>Мои записи</h2>
+    {% for note in notes %}
+        <div class="note">
+            <h3>{{ note.title }}</h3>
+            <div>{{ note.text|linebreaksbr }}</div>
+            <small class="muted">{{ note.created_at|date:"d.m.Y H:i" }}</small>
+        </div>
+    {% empty %}
+        <p>У вас пока нет записей.</p>
+    {% endfor %}
+
+    <p><a class="btn" href="{% url 'note_create' %}">Новая запись</a></p>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Все записи</h1>
+    {% for note in notes %}
+        <div class="note">
+            <h3>{{ note.title }}</h3>
+            <div>{{ note.text|truncatewords:20 }}</div>
+            <small class="muted">{{ note.author.username }} · {{ note.created_at|date:"d.m.Y H:i" }}</small>
+        </div>
+    {% empty %}
+        <p>Записей пока нет.</p>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+        <p><a class="btn" href="{% url 'note_create' %}">Новая запись</a></p>
+    {% else %}
+        <p class="muted">Чтобы добавить запись, <a href="{% url 'login' %}">войдите</a>.</p>
+    {% endif %}
+{% endblock %}
